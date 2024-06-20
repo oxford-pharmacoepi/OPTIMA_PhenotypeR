@@ -4,7 +4,8 @@ library(DBI)
 library(RSQLite)
 library(here)
 
-vocab.folder <- Sys.getenv("VOCAB_PATH") # path to directory of unzipped files
+vocab.folder <- here("local_vocabs") # path to directory of unzipped files
+
 concept <- read_delim(paste0(vocab.folder, "/CONCEPT.csv"),
                       "\t",
                       escape_double = FALSE, trim_ws = TRUE
