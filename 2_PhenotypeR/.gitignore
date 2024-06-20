@@ -1,0 +1,15 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.RData
+/Results/*.RData
+/Cohorts/*.zip
+/Cohorts/*.csv
+/Phoebe/*.csv
+/renv/.gitignore
+CodeToRunLocal.R
+Results/*
+  *.rda
+*.dcf
+renv/library/R-4.2/x86_64-w64-mingw32/renv/bin/renv

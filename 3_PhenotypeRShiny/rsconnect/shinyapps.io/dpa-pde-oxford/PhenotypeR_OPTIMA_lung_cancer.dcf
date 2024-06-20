@@ -1,0 +1,12 @@
+name: PhenotypeR_OPTIMA_lung_cancer
+title: PhenotypeR_OPTIMA_lung_cancer
+username: dpa-pde-oxford
+account: dpa-pde-oxford
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11931416
+bundleId: 8729059
+url: https://dpa-pde-oxford.shinyapps.io/PhenotypeR_OPTIMA_lung_cancer/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
