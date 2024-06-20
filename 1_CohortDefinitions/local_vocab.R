@@ -1,9 +1,4 @@
-# Build local vocabulary database
-library(readr)
-library(DBI)
-library(RSQLite)
-library(here)
-
+# set vocab folder
 vocab.folder <- here("local_vocabs") # path to directory of unzipped files
 
 concept <- read_delim(paste0(vocab.folder, "/CONCEPT.csv"),
@@ -30,7 +25,7 @@ dbWriteTable(db, "concept", concept, overwrite = TRUE)
 dbWriteTable(db, "concept_relationship", concept_relationship, overwrite = TRUE)
 dbWriteTable(db, "concept_ancestor", concept_ancestor, overwrite = TRUE)
 dbWriteTable(db, "concept_synonym", concept_synonym, overwrite = TRUE)
-dbWriteTable(db, "vocabulary", vocabulary)
+dbWriteTable(db, "vocabulary", vocabulary, overwrite = TRUE)
 dbExecute(db, "CREATE UNIQUE INDEX idx_concept_concept_id ON concept (concept_id)")
 dbExecute(db, "CREATE INDEX idx_concept_relationship_id_1 ON concept_relationship (concept_id_1, concept_id_2)")
 dbExecute(db, "CREATE INDEX idx_concept_ancestor_id_1 ON concept_ancestor (ancestor_concept_id)")
@@ -42,6 +37,10 @@ rm(concept, concept_relationship, concept_ancestor, concept_synonym)
 person_cols <- omopgenerics::omopColumns("person")
 person <- data.frame(matrix(ncol = length(person_cols), nrow = 0))
 colnames(person) <- person_cols
+
+drug_strength_cols <- omopgenerics::omopColumns("drug_strength")
+drug_strength <- data.frame(matrix(ncol = length(drug_strength_cols), nrow = 0))
+colnames(drug_strength) <- drug_strength_cols
 
 observation_period_cols <- omopgenerics::omopColumns("observation_period")
 observation_period <- data.frame(matrix(ncol = length(observation_period_cols), nrow = 0))
@@ -61,7 +60,14 @@ DBI::dbWithTransaction(db, {
   )
 })
 
-rm(person, observation_period)
+DBI::dbWithTransaction(db, {
+  DBI::dbWriteTable(db, "drug_strength",
+                    drug_strength,
+                    overwrite = TRUE
+  )
+})
+
+rm(person, observation_period, drug_strength)
 
 # create cdm reference ----
 cdm <- CDMConnector::cdm_from_con(con = db, cdm_schema = "main", write_schema="main")

@@ -5,8 +5,11 @@
 renv::restore()
 
 # packages ---
-library(Capr)
+library(readr)
+library(RSQLite)
 library(here)
+library(duckdb)
+library(Capr)
 library(DBI)
 library(CDMConnector)
 library(dplyr)
@@ -14,62 +17,15 @@ library(tidyr)
 library(CodelistGenerator)
 library(ggplot2)
 
-# db with vocab ----
-server_dbi <- Sys.getenv("DB_SERVER_cdm_thin_fr_202308_dbi")
-user       <- Sys.getenv("DB_USER")
-password   <- Sys.getenv("DB_PASSWORD")
-port       <- Sys.getenv("DB_PORT")
-host       <- Sys.getenv("DB_HOST")
+# get the local vocabs
+source(here("local_vocab.R"))
 
-# connect
-db <- DBI::dbConnect(RPostgres::Postgres(),
-                     dbname = server_dbi,
-                     port = port,
-                     host = host,
-                     user = user,
-                     password = password)
-
-# Set database details -----
-# The name of the schema that contains the OMOP CDM with patient-level data
-cdm_database_schema <- "public"
-
-# The name of the schema that contains the vocabularies
-# (often this will be the same as cdm_database_schema)
-vocabulary_database_schema <- cdm_database_schema
-
-# The name of the schema where results tables will be created
-results_database_schema <- "results"
-
-# database metadata and connection details -----
-# The name/ acronym for the database
-db_name<-"THIN_fr"
-
-# Name of outcome table in the result table where the outcome cohorts will be stored
-# Note, if there is an existing table in your results schema with the same names
-# it will be overwritten
-table_stem <- "dnclgenoptima"
-
-# create cdm reference ----
-cdm <- CDMConnector::cdm_from_con(con = db,
-                                  cdm_schema = cdm_database_schema,
-                                  write_schema = c("schema" = results_database_schema,
-                                                   "prefix" = table_stem),
-                                  cdm_name = db_name,
-                                  achilles_schema = results_database_schema )
-
-
-# check patient numbers
-cdm$person %>%
-  tally()
 
 # check vocab version
 # getVocabVersion(cdm = cdm)
 
-getConceptClassId(cdm,
-                  standardConcept = "Standard")
-
-# [1] "Clinical Finding"  "Context-dependent" "HCPCS Modifier"    "ICDO Condition"
-# [5] "Procedure"
+# get cohort concept vocabs
+#getConceptClassId(cdm, standardConcept = "Standard")
 
 # Broad lung cancer including cancers of trachea and bronchus and lower respiratory tract
 lungcancer_codes <- getCandidateCodes(
@@ -77,45 +33,74 @@ lungcancer_codes <- getCandidateCodes(
   keywords = c("malignant neoplasm of lung",
                "malignant neoplasm of trachea",
                "Primary malignant neoplasm of bronchus",
+               "neoplasm of lung",
+               "neoplasm of trachea",
+               "malignant neoplasm of bronchus",
                "Oat cell carcinoma of lung",
                "Oat cell carcinoma of trachea",
                "Oat cell carcinoma of main bronchus" ,
                "malignant neoplasm of lower respiratory tract") ,
-  exclude = c("melanoma",
-              "lymphoma",
-              "sarcoma",
-              "secondary",
-              "metastasis",
-              "lymphocytic",
-              "benign",
-              "hodgkin",
-              "neuroendocrine",
-              "rhabdomyosarcoma",
-              "angiomyosarcoma",
-              "fibrosarcoma",
-              "leiomyosarcoma",
-              "hemangiosarcoma",
-              "pseudosarcomatous",
-              "carcinosarcoma",
-              "leukemia",
-              "blastoma",
-              "T-cell",
-              "atelectasis",
-              "plasmacytoma",
-              "mesenchymoma",
-              "heavy chain disease" ,
-              "ectomesenchymoma",
-              "myeloproliferative",
-              "sezary",
-              "lymphoid",
-              "epithelioid hemangioendothelioma"
-
-  ) ,
-  domains = c("Condition", "Observation")
+  domains = c("Condition", "Observation"),
+  standardConcept = "Standard",
+  searchInSynonyms = FALSE,
+  searchNonStandard = FALSE,
+  includeDescendants = TRUE,
+  includeAncestor = FALSE
 )
 
+
 write.csv(lungcancer_codes, here::here("preliminary_cohorts" ,
-                                       paste0(cdmName(cdm), "_lungCancerBroad.csv")), row.names = FALSE)
+                                       paste0("broad_lungCancer.csv")), row.names = FALSE)
+
+
+
+# Breast cancer
+breastcancer_codes <- getCandidateCodes(
+  cdm = cdm,
+  keywords = c("malignant neoplasm of breast",
+               "neoplasm of breast") ,
+  domains = c("Condition", "Observation"),
+  standardConcept = "Standard",
+  searchInSynonyms = FALSE,
+  searchNonStandard = FALSE,
+  includeDescendants = TRUE,
+  includeAncestor = FALSE
+)
+
+write.csv(breastcancer_codes, here::here("preliminary_cohorts" ,
+                                       paste0("broad_breastCancer.csv")), row.names = FALSE)
+
+
+
+# prostate
+prostatecancer_codes <- getCandidateCodes(
+  cdm = cdm,
+  keywords = c("malignant neoplasm of prostate",
+               "neoplasm of prostate") ,
+  domains = c("Condition", "Observation"),
+  standardConcept = "Standard",
+  searchInSynonyms = FALSE,
+  searchNonStandard = FALSE,
+  includeDescendants = TRUE,
+  includeAncestor = FALSE
+)
+
+write.csv(prostatecancer_codes, here::here("preliminary_cohorts" ,
+                                         paste0("broad_prostateCancer.csv")), row.names = FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #trying out orphan codes for lung cancer BROAD
 lungcancer_orphan_codes <- findOrphanCodes(x = list("lung_cancer" = lungcancer_codes$concept_id),
