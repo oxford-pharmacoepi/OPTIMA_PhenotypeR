@@ -100,47 +100,81 @@ lungcancer_codes <- read.csv(here::here("preliminary_cohorts"  ,
 prostatecancer_codes <- read.csv(here::here("preliminary_cohorts"  ,
                                           paste0("broad_prostateCancer.csv")))
 
-# create cohorts
-# 1 broad incidence
-lung_cancer_incident_broad <- cohort(
+# create cohorts -----------
+# breast cancer
+breast_obs <- breastcancer_codes %>%
+  filter(domain_id == "Observation" ) %>%
+  pull(concept_id)
+
+breast_cond <- breastcancer_codes %>%
+  filter(domain_id == "Condition" ) %>%
+  pull(concept_id)
+
+
+#
+breastcancer <- cohort(
   entry = entry(
-    conditionOccurrence(getConceptSetDetails(cs(broad_inc, name = "lung_cancer_broad_inc"), db, vocabularyDatabaseSchema = "public")),
+    conditionOccurrence(getConceptSetDetails(cs(breast_cond, name = "breast_cond"), db, vocabularyDatabaseSchema = "main")),
+    observation(getConceptSetDetails(cs(breast_obs , name = "breast_obs"), db, vocabularyDatabaseSchema = "main")),
     observationWindow = continuousObservation(0L, 0L),
-    primaryCriteriaLimit = "First"
+    primaryCriteriaLimit = "All"
   ),
   exit = exit(
     endStrategy = observationExit()
   )
 )
 
-writeCohort(lung_cancer_incident_broad, here::here("preliminary_cohorts",
-                                                     "lung_cancer_incident_broad.json"))
+writeCohort(breastcancer, here::here("preliminary_cohorts", "breastcancer.json"))
 
-# lung cancer plus stage ------
 
-# smoker
-smoker_obs <- reviewed_code_list_smoking %>%
-  filter(Smoker == "y" &
-           domain_id == "Observation" ) %>%
+
+# lung cancer
+lung_obs <- lungcancer_codes %>%
+  filter(domain_id == "Observation" ) %>%
   pull(concept_id)
 
-smoker_cond <- reviewed_code_list_smoking %>%
-  filter(Smoker == "y" &
-           domain_id == "Condition" ) %>%
+lung_cond <- lungcancer_codes %>%
+  filter(domain_id == "Condition" ) %>%
   pull(concept_id)
 
 
-# smoker
-smoker <- cohort(
+#
+lungcancer <- cohort(
   entry = entry(
-    conditionOccurrence(getConceptSetDetails(cs(smoker_cond, name = "smoker_cond"), db, vocabularyDatabaseSchema = "public")),
-    observation(getConceptSetDetails(cs(smoker_obs , name = "smoker_obs"), db, vocabularyDatabaseSchema = "public")),
+    conditionOccurrence(getConceptSetDetails(cs(lung_cond, name = "lung_cond"), db, vocabularyDatabaseSchema = "main")),
+    observation(getConceptSetDetails(cs(lung_obs , name = "lung_obs"), db, vocabularyDatabaseSchema = "main")),
     observationWindow = continuousObservation(0L, 0L),
-    primaryCriteriaLimit = "First"
+    primaryCriteriaLimit = "All"
   ),
   exit = exit(
     endStrategy = observationExit()
   )
 )
 
-writeCohort(smoker, here::here("preliminary_cohorts", "smoker.json"))
+writeCohort(lungcancer, here::here("preliminary_cohorts", "lungcancer.json"))
+
+
+# prostate cancer
+prostate_obs <- prostatecancer_codes %>%
+  filter(domain_id == "Observation" ) %>%
+  pull(concept_id)
+
+prostate_cond <- prostatecancer_codes %>%
+  filter(domain_id == "Condition" ) %>%
+  pull(concept_id)
+
+
+#
+prostatecancer <- cohort(
+  entry = entry(
+    conditionOccurrence(getConceptSetDetails(cs(prostate_cond, name = "prostate_cond"), db, vocabularyDatabaseSchema = "main")),
+    observation(getConceptSetDetails(cs(prostate_obs , name = "prostate_obs"), db, vocabularyDatabaseSchema = "main")),
+    observationWindow = continuousObservation(0L, 0L),
+    primaryCriteriaLimit = "All"
+  ),
+  exit = exit(
+    endStrategy = observationExit()
+  )
+)
+
+writeCohort(prostatecancer, here::here("preliminary_cohorts", "prostatecancer.json"))
