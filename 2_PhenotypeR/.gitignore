@@ -4,6 +4,8 @@
 .Ruserdata
 *.RData
 /Results/*.RData
+/renv/activate.R
+/renv/Rprofile
 /Cohorts/*.zip
 /Cohorts/*.csv
 /Phoebe/*.csv
