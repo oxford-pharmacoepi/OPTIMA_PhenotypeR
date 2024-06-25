@@ -47,7 +47,6 @@ db <- DBI::dbConnect("...",
 
 # Set database details -----
 # The name of the schema that contains the OMOP CDM with patient-level data
-#cdm_database_schema <- "public"
 cdm_schema <- "..."
 
 # The name of the schema where results tables will be created 
@@ -58,7 +57,7 @@ achilles_schema <- "..."
 
 # Table prefix -----
 # any tables created in the database during the analysis will start with this prefix
-study_prefix <- "optima_diagnositics_"
+study_prefix <- "optima_phenotyper_"
 
 # Run the study ------
 source(here("RunStudy.R"))
