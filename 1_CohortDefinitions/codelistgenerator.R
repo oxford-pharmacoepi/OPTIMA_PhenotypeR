@@ -145,6 +145,9 @@ lung_cond <- lungcancer_codes %>%
   filter(domain_id == "Condition" ) %>%
   pull(concept_id)
 
+#adding additional concepts (if we include them in codelist generator it includes all the
+#descendants which covers head and neck cancer which we dont want)
+
 lung_cond <- c(lung_cond, 4311499, 4317685)
 
 #
