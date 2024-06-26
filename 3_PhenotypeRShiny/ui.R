@@ -137,8 +137,9 @@ ui <- dashboardPage(
           tabPanel(
             "Clinical Definition",
             h4(),
-            downloadButton("downloadSmallCell", "Small Cell Lung Cancer"),
+            downloadButton("downloadBreastCancer", "Breast Cancer"),
             downloadButton("downloadLungCancer", "Lung Cancer"),
+            downloadButton("downloadProstateCancer", "Prostate Cancer"),
           ) ,
 
         )
