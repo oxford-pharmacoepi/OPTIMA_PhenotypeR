@@ -152,7 +152,7 @@
         "tidyselect",
         "zip"
       ],
-      "Hash": "9939c6d913e99a077b6459693117a937"
+      "Hash": "62820c1d0fab4a16e87efe668b5ff78d"
     },
     "MASS": {
       "Package": "MASS",
@@ -238,25 +238,6 @@
         "methods"
       ],
       "Hash": "2f89abc0f88c647d3386c672632f4baf"
-    },
-    "RPostgres": {
-      "Package": "RPostgres",
-      "Version": "1.4.6",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "DBI",
-        "R",
-        "bit64",
-        "blob",
-        "cpp11",
-        "hms",
-        "lubridate",
-        "methods",
-        "plogr",
-        "withr"
-      ],
-      "Hash": "a3ccabc3de4657c14185c91f3e6d4b60"
     },
     "SqlRender": {
       "Package": "SqlRender",
@@ -434,7 +415,7 @@
         "vctrs",
         "withr"
       ],
-      "Hash": "39b2e002522bfd258039ee4e889e0fd1"
+      "Hash": "59351f28a81f0742720b85363c4fdd61"
     },
     "desc": {
       "Package": "desc",
@@ -845,13 +826,6 @@
       ],
       "Hash": "876c618df5ae610be84356d5d7a5d124"
     },
-    "plogr": {
-      "Package": "plogr",
-      "Version": "0.2.0",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "09eb987710984fc2905c7129c7d85e65"
-    },
     "praise": {
       "Package": "praise",
       "Version": "1.0.0",
@@ -969,7 +943,12 @@
     "renv": {
       "Package": "renv",
       "Version": "1.0.7",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "397b7b2a265bc5a7a06852524dabae20"
     },
     "rlang": {
       "Package": "rlang",
