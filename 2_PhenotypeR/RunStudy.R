@@ -463,10 +463,11 @@ toc(log = TRUE)
 rm(cdmSampled)
 
 # Log close ############
-
 toc(log = TRUE)
 tic.log(format = TRUE)
 tic_log <- tic.log(format = TRUE)
+
+timings <- unlist(lapply(log.lst, function(x) x$toc - x$tic))
 
 output$log <- tibble(cdm_name = input$cdmName, log = paste0(tic_log %>%  unlist(), collapse = "\n"))
 write_csv(output$log, here("Results", db_name, paste0(
