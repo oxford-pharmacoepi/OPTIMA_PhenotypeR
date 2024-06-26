@@ -145,6 +145,7 @@ lung_cond <- lungcancer_codes %>%
   filter(domain_id == "Condition" ) %>%
   pull(concept_id)
 
+lung_cond <- c(lung_cond, 4311499, 4317685)
 
 #
 lungcancer <- cohort(
