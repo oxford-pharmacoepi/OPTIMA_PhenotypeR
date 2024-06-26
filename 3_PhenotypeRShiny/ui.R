@@ -59,8 +59,35 @@ ui <- dashboardPage(
         text = "Execution log",
         tabName = "log"
       )
+    ),
+    
+    tags$div(
+      style = "position: relative; margin-top: 20px; text-align: center; margin-bottom: 0;",
+      a(img(
+        src = "Logo_HDS.png",  # Replace with the correct file name and extension
+        height = "150px",  # Adjust the height as needed
+        width = "auto"     # Let the width adjust proportionally
+      ),
+      href = "https://www.ndorms.ox.ac.uk/research/research-groups/Musculoskeletal-Pharmacoepidemiology",
+      target = "_blank"
+      )
+    ) ,
+    
+    # Logo 
+    tags$div(
+      style = "position: relative; margin-top: -20px; text-align: center; margin-bottom: 0;",
+      a(img(
+        src = "logoOxford.png",  # Replace with the correct file name and extension
+        height = "150px",  # Adjust the height as needed
+        width = "auto"     # Let the width adjust proportionally
+      ),
+      href = "https://www.ndorms.ox.ac.uk/research/research-groups/Musculoskeletal-Pharmacoepidemiology",
+      target = "_blank"
+      )
     )
+    
   ),
+  
   
   # ## body ----
   dashboardBody(
