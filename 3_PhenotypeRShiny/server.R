@@ -103,8 +103,14 @@ server <- function(input, output, session) {
     
   })
   
-  output$tbl_concept_sets <- renderText(kable(get_concepts_sets()) %>%
-                                          kable_styling("striped", full_width = F) )
+  # output$tbl_concept_sets <- renderText(kable(get_concepts_sets()) %>%
+  #                                         kable_styling("striped", full_width = F) )
+  
+  
+  output$tbl_concept_sets <- DT::renderDataTable({
+    DT::datatable(concept_sets_final)
+  })
+  
   
   output$dt_concept_sets_word <- downloadHandler(
     filename = function() {

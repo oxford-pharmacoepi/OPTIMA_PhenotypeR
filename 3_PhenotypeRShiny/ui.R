@@ -156,8 +156,9 @@ ui <- dashboardPage(
           tabPanel(
             "Concept sets",
             
+            DT::dataTableOutput('tbl_concept_sets'),
             
-            htmlOutput('tbl_concept_sets'),
+            #htmlOutput('tbl_concept_sets'),
             
             div(style="display:inline-block",
                 downloadButton(
