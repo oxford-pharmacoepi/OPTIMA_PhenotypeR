@@ -1,5 +1,16 @@
 ui <- dashboardPage(
-  dashboardHeader(title = "PhenotypeR"),
+  
+  dashboardHeader(
+    title = tags$div(
+      style = "display: flex; align-items: center;",
+      tags$a(href = "https://oxford-pharmacoepi.github.io/phenotypeR/",  # Replace with your desired URL
+             tags$img(src = "phenotypeR.png", height = "50px", style = "margin-right: 10px;")  # Adjusted height
+      ),
+      tags$span("PhenotypeR", style = "margin-left: 10px; font-size: 24px;")  # Optional: Adjust title font size
+    ),
+    titleWidth = "100%"
+  ),
+  
   ## menu ----
   dashboardSidebar(
     sidebarMenu(

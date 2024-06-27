@@ -380,25 +380,49 @@ data$lsc_table <- data$lsc_matched %>%
 
 cohort_set <- data$cohort_definitions
 
-# Shiny theme ----
+# # Shiny theme ----
+# DUtheme <- create_theme(
+#   adminlte_color(
+#     light_blue = "#0c0e0c" 
+#   ),
+#   adminlte_sidebar(
+#     # width = "400px",
+#     dark_bg = "#78B7C5",
+#     dark_hover_bg = "#3B9AB2",
+#     dark_color = "white"
+#   ), 
+#   adminlte_global(
+#     content_bg = "#eaebea" 
+#   ),
+#   adminlte_vars(
+#     border_color = "#112446",
+#     active_link_hover_bg = "#FFF",
+#     active_link_hover_color = "#112446",
+#     active_link_hover_border_color = "#112446",
+#     link_hover_border_color = "#112446"
+#   )
+# )
+
 DUtheme <- create_theme(
   adminlte_color(
-    light_blue = "#0c0e0c" 
+    light_blue = "#E387EE"  # Pink for the top border
   ),
   adminlte_sidebar(
-    # width = "400px",
-    dark_bg = "#78B7C5",
-    dark_hover_bg = "#3B9AB2",
-    dark_color = "white"
+    dark_bg = "#7683D6",        # Purple for the sidebar
+    dark_hover_bg = "#A9A9A9",  # Slightly darker grey for hover
+    dark_color = "white"        # White text color
   ), 
   adminlte_global(
-    content_bg = "#eaebea" 
+    content_bg = "#F5F5F5"      # Very light grey for the main background
   ),
   adminlte_vars(
-    border_color = "#112446",
-    active_link_hover_bg = "#FFF",
-    active_link_hover_color = "#112446",
-    active_link_hover_border_color = "#112446",
-    link_hover_border_color = "#112446"
+    border_color = "#E387EE",   # Pink for the border color
+    active_link_hover_bg = "#FFFFFF",  # White for active link hover background
+    active_link_hover_color = "#E387EE", # Pink for active link hover color
+    active_link_hover_border_color = "#E387EE", # Pink for active link hover border color
+    link_hover_border_color = "#E387EE"  # Pink for link hover border color
   )
 )
+
+
+
