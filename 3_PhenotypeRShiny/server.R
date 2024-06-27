@@ -21,12 +21,12 @@ server <- function(input, output, session) {
 
 
   
-  output$downloadSmallCell <- downloadHandler(
+  output$downloadBreastCancer <- downloadHandler(
     filename = function() {
-      "small_cell_lung_cancer.docx"
+      "breast_cancer.docx"
     },
     content = function(file) {
-      file.copy("www/small_cell_lung_cancer.docx", file)
+      file.copy("www/breast_cancer.docx", file)
     }
   )
   
@@ -36,6 +36,15 @@ server <- function(input, output, session) {
     },
     content = function(file) {
       file.copy("www/lung_cancer.docx", file)
+    }
+  )
+  
+  output$downloadProstateCancer <- downloadHandler(
+    filename = function() {
+      "prostate_cancer.docx"
+    },
+    content = function(file) {
+      file.copy("www/prostate_cancer.docx", file)
     }
   )
 
