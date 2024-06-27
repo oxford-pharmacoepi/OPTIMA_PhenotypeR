@@ -24,6 +24,8 @@ library(bit64)
 library(rsconnect)
 library(packrat)
 library(readr)
+library(rjson)
+library(kableExtra)
 
 # Variables
 dataFolder <- "data"

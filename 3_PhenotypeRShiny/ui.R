@@ -152,6 +152,22 @@ ui <- dashboardPage(
             downloadButton("downloadLungCancer", "Lung Cancer"),
             downloadButton("downloadProstateCancer", "Prostate Cancer"),
           ) ,
+          
+          tabPanel(
+            "Concept sets",
+            
+            
+            htmlOutput('tbl_concept_sets'),
+            
+            div(style="display:inline-block",
+                downloadButton(
+                  outputId = "dt_concept_sets_word",
+                  label = "Download table as word"
+                ), 
+                style="display:inline-block; float:right")
+            
+          ),
+          
 
         )
       ),

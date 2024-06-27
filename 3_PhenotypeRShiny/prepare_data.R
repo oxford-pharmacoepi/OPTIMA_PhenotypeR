@@ -380,28 +380,82 @@ data$lsc_table <- data$lsc_matched %>%
 
 cohort_set <- data$cohort_definitions
 
-# # Shiny theme ----
-# DUtheme <- create_theme(
-#   adminlte_color(
-#     light_blue = "#0c0e0c" 
-#   ),
-#   adminlte_sidebar(
-#     # width = "400px",
-#     dark_bg = "#78B7C5",
-#     dark_hover_bg = "#3B9AB2",
-#     dark_color = "white"
-#   ), 
-#   adminlte_global(
-#     content_bg = "#eaebea" 
-#   ),
-#   adminlte_vars(
-#     border_color = "#112446",
-#     active_link_hover_bg = "#FFF",
-#     active_link_hover_color = "#112446",
-#     active_link_hover_border_color = "#112446",
-#     link_hover_border_color = "#112446"
-#   )
-# )
+# Get concept ids from a provided path to cohort json files
+# in dataframe
+# Get a list of JSON files in the directory
+json_files <- list.files(path = here("www", "Cohorts"), pattern = "\\.json$", full.names = TRUE)
+concept_lists_temp <- list()
+concept_lists <- list()
+concept_sets <- list()
+
+if(length(json_files > 0)){
+  
+  for(i in seq_along(json_files)){
+    concept_lists_temp[[i]] <- fromJSON(file = json_files[[i]]) 
+    
+  } 
+  
+  # for conditions
+  for(i in 1:length(concept_lists_temp)){
+    
+    for(k in 1:length(concept_lists_temp[[i]]$ConceptSets[[1]]$expression$items)){  
+      
+      concept_sets[[k]] <- bind_rows(concept_lists_temp[[i]]$ConceptSets[[1]]$expression$items[[k]]$concept)  
+      
+    }
+    
+    concept_lists[[i]] <- bind_rows(concept_sets) %>% 
+      mutate(name = concept_lists_temp[[i]]$ConceptSets[[1]]$name)
+    
+    
+  }
+  
+  concept_sets_final <- bind_rows(concept_lists)
+  
+  concept_sets_final <- concept_sets_final %>%
+    mutate(name = ifelse(name == "breast_cond", "breastcancer", name)) %>%
+    mutate(name = ifelse(name == "lung_cond", "lungcancer", name)) %>% 
+    mutate(name = ifelse(name == "prostate_cond", "prostatecancer", name))
+
+
+  # for observations
+  concept_lists1 <- list()
+  concept_sets1 <- list()
+  for(i in 1:length(concept_lists_temp)){
+    
+    for(b in 1:length(concept_lists_temp[[i]]$ConceptSets[[2]]$expression$items)){  
+      
+      concept_sets1[[b]] <- bind_rows(concept_lists_temp[[i]]$ConceptSets[[2]]$expression$items[[b]]$concept)  
+      
+    }
+    
+    concept_lists1[[i]] <- bind_rows(concept_sets1) %>% 
+      mutate(name = concept_lists_temp[[i]]$ConceptSets[[2]]$name)
+    
+    
+  }
+  
+  
+  concept_sets_final1 <- bind_rows(concept_lists1)
+  
+
+
+concept_sets_final1 <- concept_sets_final1 %>%
+  mutate(name = ifelse(name == "breast_obs", "breastcancer", name)) %>%
+  mutate(name = ifelse(name == "lung_obs", "lungcancer", name)) %>% 
+  mutate(name = ifelse(name == "prostate_obs", "prostatecancer", name)) 
+
+
+concept_sets_final <- bind_rows(concept_sets_final, concept_sets_final1)
+
+}
+
+
+rm(concept_lists_temp, concept_lists, concept_sets,
+   concept_lists1, concept_sets1, concept_sets_final1
+   )
+
+
 
 DUtheme <- create_theme(
   adminlte_color(
