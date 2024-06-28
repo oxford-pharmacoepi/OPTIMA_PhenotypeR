@@ -5,7 +5,7 @@
 - **Study start date**: 28/06/2024
 - **Study leads**: Danielle Newby and Cheryl Tan
 - **Study end date**:
-- **ShinyApp**:
+- **ShinyApp**: https://dpa-pde-oxford.shinyapps.io/OPTIMA_phenotypeR/
 - **Report**:
 
 ---
@@ -25,3 +25,9 @@ This repo is organized as follows:
 1) Navigate to [2_PhenotypeR](https://github.com/oxford-pharmacoepi/OPTIMA_PhenotypeR/tree/main/2_PhenotypeR). Open the project <i>PhenotypeR.Rproj</i> in RStudio (when inside the project, you will see its name on the top-right of your RStudio session).
 2) Open and work though the <i>CodeToRun.R</i> file which should be the only file that you need to interact with. Run the lines in the file, adding your database specific information and so on (see comments within the file for instructions). The last line of this file will run the study <i>(source(here("RunStudy.R"))</i>.     
 3) After running you should then have a zip folder with results to share in your results folder OR you can use the RData file to review your results locally.
+
+## Reviewing results from cohort diagnostics using PhenotypeR
+1) Take the RData file from your results folder and move it to the data file 
+2) Navigate to [3_PhenotypeRShiny](https://github.com/oxford-pharmacoepi/OPTIMA_PhenotypeR/tree/main/3_PhenotypeRShiny). Open the project <i>Shiny.Rproj</i> in RStudio (when inside the project, you will see its name on the top-right of your RStudio session).
+3) Either write shiny::runApp() in the console or open up the UI.R file and click "Run App".
+4) Your results are ready to review locally in the shiny
