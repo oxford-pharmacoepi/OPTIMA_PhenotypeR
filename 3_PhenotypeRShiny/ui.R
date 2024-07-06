@@ -108,7 +108,7 @@ ui <- dashboardPage(
       tabItem(
         tabName = "background",
         h3("PhenotypeR"),
-        h5("PhenotypeR is a package to assess feasibility and phenotypes generated for studies."),
+        h5("PhenotypeR is a package to assess feasibility of clinical phenotypes to be used for studies. The package is under developement however it relies on other publically available packages as a tool to help phenotyping."),
       ),
       #cdm snapshot ------
       tabItem(
@@ -135,11 +135,12 @@ ui <- dashboardPage(
           type = "tabs",
           tabPanel(
             "Cohort definition",
+            h4("Below is the cohort definition"),
             uiOutput("markdown")
           ),
           tabPanel(
             "JSON",
-            h4(),
+            h4("Below is the json file which can be copied and exported into ATLAS"),
             rclipboardSetup(),
             uiOutput("clip"),
             verbatimTextOutput("verb"),
@@ -147,7 +148,7 @@ ui <- dashboardPage(
           
           tabPanel(
             "Clinical Definition",
-            h4(),
+            h4("The clinical description for each phenotype can be downloaded below and then reviewed:"),
             downloadButton("downloadBreastCancer", "Breast Cancer"),
             downloadButton("downloadLungCancer", "Lung Cancer"),
             downloadButton("downloadProstateCancer", "Prostate Cancer"),
