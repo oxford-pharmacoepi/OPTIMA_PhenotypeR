@@ -108,7 +108,7 @@ ui <- dashboardPage(
       tabItem(
         tabName = "background",
         h3("PhenotypeR"),
-        h5("https://github.com/oxford-pharmacoepi/phenotypeR_project"),
+        h5("PhenotypeR is a package to assess feasibility and phenotypes generated for studies."),
       ),
       #cdm snapshot ------
       tabItem(
