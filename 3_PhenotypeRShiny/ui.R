@@ -113,7 +113,7 @@ ui <- dashboardPage(
       #cdm snapshot ------
       tabItem(
         tabName = "cdm_snapshot",
-        h4("Information about the databases."),
+        h4("Database Summary."),
       selectors(data$cdm_snapshot, "cdm_snapshot", c("cdm_name")),
       #downloadButton("cdm_snapshot_tidy", "Download csv"),
       DTOutput("cdm_snapshot_tidy") %>% withSpinner()
@@ -130,7 +130,7 @@ ui <- dashboardPage(
           options = list(`actions-box` = TRUE, size = 10, `selected-text-format` = "count > 3"),
           multiple = FALSE
         ),
-        #selectors(data$cohort_definitions, "definitions", c("cdm_name", "cohort_name"), multiple = FALSE, default = list()),
+
         tabsetPanel(
           type = "tabs",
           tabPanel(
@@ -156,11 +156,8 @@ ui <- dashboardPage(
           
           tabPanel(
             "Concept sets",
-            
+           h4("Below are the concept sets used for selected phenotype:"),
             DT::dataTableOutput('tbl_concept_sets'),
-            
-            #htmlOutput('tbl_concept_sets'),
-            
             div(style="display:inline-block",
                 downloadButton(
                   outputId = "dt_concept_sets_word",
@@ -177,13 +174,13 @@ ui <- dashboardPage(
       # cohort_counts ----
       tabItem(
         tabName = "counts",
-        selectors(data$cohort_count, "counts", c("cdm_name", "cohort_name"), multiple = TRUE, default = list()),
+        selectors(data$cohort_count, "counts", c("cdm_name", "cohort_name" ), multiple = TRUE, default = list()),
+        #selectors(data$cohort_count, "counts", c("cohort_name"), multiple = FALSE, default = list()),
         DTOutput("tidy_counts")
       ),
       tabItem(
         tabName = "code_counts",
         selectors(data$code_counts, "code_counts", c("cdm_name", "cohort"), multiple = FALSE, default = list()),
-        # selectors(data$orphan_counts, "code_counts", c("domain_id"), multiple = TRUE, default = list()),
         pickerInput(
           inputId = "select_code_count_columns",
           label = "Columns to display",
@@ -204,7 +201,6 @@ ui <- dashboardPage(
       tabItem(
         tabName = "orphan",
         selectors(data$orphan_counts, "orphan", c("cdm_name", "cohort"), multiple = FALSE, default = list()),
-        # selectors(data$orphan_counts, "orphan", c("domain_id"), multiple = TRUE, default = list()),
         pickerInput(
           inputId = "select_orphan_count_columns",
           label = "Columns to display",
@@ -286,11 +282,11 @@ ui <- dashboardPage(
           tabPanel(
             "Tidy table",
             DTOutput("age_tidy_table")
-          ),
-          tabPanel(
-            "Formatted table",
-            h4(),
-            gt_output("age_format_table")
+          # ),
+          # tabPanel(
+          #   "Formatted table",
+          #   h4(),
+          #   gt_output("age_format_table")
           )
         )
       ),
@@ -303,11 +299,11 @@ ui <- dashboardPage(
           tabPanel(
             "Tidy table",
             DTOutput("time_tidy_table")
-          ),
-          tabPanel(
-            "Formatted table",
-            h4(),
-            gt_output("time_format_table")
+          # ),
+          # tabPanel(
+          #   "Formatted table",
+          #   h4(),
+          #   gt_output("time_format_table")
           )
         )
       ),
@@ -439,23 +435,23 @@ ui <- dashboardPage(
               multiple = TRUE
             ),
             DTOutput("lsc_table")
-          ),
-          tabPanel(
-            "Plot",
-            h4(),
-            pickerInput(
-              inputId = "plsc_facet",
-              label = "facet_by",
-              choices = c("cohort_name", "cdm_name", "window"),
-              selected = c("cohort_name", "cdm_name", "window"),
-              options = list(
-                `actions-box` = TRUE,
-                size = 10,
-                `selected-text-format` = "count > 3"
-              ),
-              multiple = TRUE) ,
-            
-            plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
+          # ),
+          # tabPanel(
+          #   "Plot",
+          #   h4(),
+          #   pickerInput(
+          #     inputId = "plsc_facet",
+          #     label = "facet_by",
+          #     choices = c("cohort_name", "cdm_name", "window"),
+          #     selected = c("cohort_name", "cdm_name", "window"),
+          #     options = list(
+          #       `actions-box` = TRUE,
+          #       size = 10,
+          #       `selected-text-format` = "count > 3"
+          #     ),
+          #     multiple = TRUE) ,
+          #   
+          #   plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
           )
         )
       ),
