@@ -214,7 +214,8 @@ server <- function(input, output, session) {
         subject_percentage_y = subject_counts_y/total_counts * 100,
         total_percentage = 100,
         comparison_name = paste0(cohort_name_x, "; ", cohort_name_y)
-      ) 
+      ) %>% 
+    distinct(intersect_percentage, .keep_all = TRUE)
   })
   output$overlap_plot <- renderPlotly({
     table <- getOverlapPlot() 
