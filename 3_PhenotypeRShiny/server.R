@@ -9,18 +9,45 @@ server <- function(input, output, session) {
       formatMarkdown()
   })
   # JSON ----
-  output$verb <- renderPrint({
-    
-    json_content <- cohort_set %>% 
-      filter(cohort_name %in% input$cohort_set_input) %>%
-      pull(json) %>%
-      unlist()
-    
-    cat(json_content)
-    
-  })
-
-
+  # output$verb <- renderPrint({
+  #   
+  #   json_content <- cohort_set %>% 
+  #     filter(cohort_name %in% input$cohort_set_input) %>%
+  #     pull(json) %>%
+  #     unlist()
+  #   
+  #   cat(json_content)
+  #   
+  # })
+  # 
+  output$downloadBreastCancerjson <- downloadHandler(
+    filename = function() {
+      "breastcancer.json"
+    },
+    content = function(file) {
+      file.copy("www/Cohorts/breastcancer.json", file)
+    }
+  )
+  
+  output$downloadLungCancerjson <- downloadHandler(
+    filename = function() {
+      "lungcancer.json"
+    },
+    content = function(file) {
+      file.copy("www/Cohorts/lungcancer.json", file)
+    }
+  )
+  
+  output$downloadProstateCancerjson <- downloadHandler(
+    filename = function() {
+      "prostatecancer.json"
+    },
+    content = function(file) {
+      file.copy("www/Cohorts/prostatecancer.json", file)
+    }
+  )
+  
+  
   
   output$downloadBreastCancer <- downloadHandler(
     filename = function() {
@@ -50,19 +77,19 @@ server <- function(input, output, session) {
   )
 
   
-  output$clip <- renderUI({
-    rclipButton(
-      inputId = "clipbtn",
-      label = "Copy to clipboard",
-      clipText = isolate(cohort_set %>%
-                           filter(cohort_name %in% input$cohort_set_input) %>%
-                           pull(json) %>%
-                           unlist()),
-      icon = icon("clipboard"),
-      placement = "top",
-      options = list(delay = list(show = 800, hide = 100), trigger = "hover")
-    )
-  })
+  # output$clip <- renderUI({
+  #   rclipButton(
+  #     inputId = "clipbtn",
+  #     label = "Copy to clipboard",
+  #     clipText = isolate(cohort_set %>%
+  #                          filter(cohort_name %in% input$cohort_set_input) %>%
+  #                          pull(json) %>%
+  #                          unlist()),
+  #     icon = icon("clipboard"),
+  #     placement = "top",
+  #     options = list(delay = list(show = 800, hide = 100), trigger = "hover")
+  #   )
+  # })
   
   # Cohort counts ----
   output$tidy_counts <- renderDataTable({
@@ -480,6 +507,7 @@ server <- function(input, output, session) {
         facet_wrap(vars(facet_var),nrow = 2) +
         theme_bw() +
         theme(legend.position = "none")
+      
     } else{
       p <- table %>%
         ggplot(aes_string(x = "sample_percentage", y = "matched_percentage",
@@ -495,6 +523,8 @@ server <- function(input, output, session) {
     p + xlab("Sample") + ylab("Matched") +
       scale_x_continuous(limits = c(0, 100)) +
       scale_y_continuous(limits = c(0, 100))
+    
+    p
     
   })
     

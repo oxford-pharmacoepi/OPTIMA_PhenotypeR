@@ -141,10 +141,13 @@ ui <- dashboardPage(
           ),
           tabPanel(
             "JSON",
-            h4("Below is the json file which can be copied and exported into ATLAS"),
-            rclipboardSetup(),
-            uiOutput("clip"),
-            verbatimTextOutput("verb"),
+            h4("Below is the json files which can be downloaded and exported into ATLAS"),
+            downloadButton("downloadBreastCancerjson", "Breast Cancer"),
+            downloadButton("downloadLungCancerjson", "Lung Cancer"),
+            downloadButton("downloadProstateCancerjson", "Prostate Cancer"),
+            # rclipboardSetup(),
+            # uiOutput("clip"),
+            # verbatimTextOutput("verb"),
           ) ,
           
           tabPanel(
@@ -436,23 +439,23 @@ ui <- dashboardPage(
               multiple = TRUE
             ),
             DTOutput("lsc_table")
-          # ),
-          # tabPanel(
-          #   "Plot",
-          #   h4(),
-          #   pickerInput(
-          #     inputId = "plsc_facet",
-          #     label = "facet_by",
-          #     choices = c("cohort_name", "cdm_name", "window"),
-          #     selected = c("cohort_name", "cdm_name", "window"),
-          #     options = list(
-          #       `actions-box` = TRUE,
-          #       size = 10,
-          #       `selected-text-format` = "count > 3"
-          #     ),
-          #     multiple = TRUE) ,
-          #   
-          #   plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
+          ),
+          tabPanel(
+            "Plot",
+            h4(),
+            pickerInput(
+              inputId = "plsc_facet",
+              label = "facet_by",
+              choices = c("cohort_name", "cdm_name", "window"),
+              selected = c("cohort_name", "cdm_name", "window"),
+              options = list(
+                `actions-box` = TRUE,
+                size = 10,
+                `selected-text-format` = "count > 3"
+              ),
+              multiple = TRUE) ,
+
+            plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
           )
         )
       ),
