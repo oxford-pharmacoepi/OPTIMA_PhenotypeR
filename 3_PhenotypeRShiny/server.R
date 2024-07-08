@@ -145,6 +145,9 @@ server <- function(input, output, session) {
   getOrphanCount <- reactive({
     filterData(data$orphan_counts, "orphan", input) %>% 
       niceColumnNames() %>% 
+      mutate(`Record count` = as.integer(`Record count`),
+             `Person count` = as.integer(`Person count`)) %>% 
+      arrange(desc(`Person count`)) %>% 
       select(input$select_orphan_count_columns)
   })
   output$tidy_orphan_counts <- renderDataTable({
@@ -158,6 +161,9 @@ server <- function(input, output, session) {
   # Index date ----
   getIndexDate <- reactive({
     filterData(data$index_events, "index", input) %>% 
+      mutate(`Record count` = as.integer(`Record count`),
+             `Person count` = as.integer(`Person count`)) %>% 
+      arrange(desc(`Person count`)) %>% 
       niceColumnNames() %>% 
       select(input$select_index_columns)
   })
@@ -253,7 +259,8 @@ server <- function(input, output, session) {
   getAgeDistribution <- reactive({
     filterData(data$age_distribution, "age", input) %>% 
       select(age_group, sex, cdm_name, cohort_name, n) %>% 
-      niceColumnNames()
+      niceColumnNames() %>% 
+      arrange(Sex) 
   })
   output$age_tidy_table <- renderDataTable({
     datatable(
