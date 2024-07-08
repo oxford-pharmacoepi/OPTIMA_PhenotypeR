@@ -455,6 +455,9 @@ server <- function(input, output, session) {
 
     filterData(data$lsc_table, "lsc", input) %>% 
       niceColumnNames() %>% 
+      
+      arrange(`Cohort name`, `Cdm name`, desc(`Difference percentage`)) %>% 
+
       select(input$select_lsc_columns)
   })
     
@@ -494,6 +497,7 @@ server <- function(input, output, session) {
       scale_y_continuous(limits = c(0, 100))
     
   })
+    
   # log ----
   output$log <- renderUI({
     filterData(data$log, "log", input) %>% 
