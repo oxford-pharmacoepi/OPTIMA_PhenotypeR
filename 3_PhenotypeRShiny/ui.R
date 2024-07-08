@@ -284,7 +284,7 @@ ui <- dashboardPage(
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            "Tidy table",
+            "Table",
             DTOutput("age_tidy_table")
           # ),
           # tabPanel(
@@ -301,7 +301,7 @@ ui <- dashboardPage(
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            "Tidy table",
+            "Table",
             DTOutput("time_tidy_table")
           # ),
           # tabPanel(
@@ -449,21 +449,21 @@ ui <- dashboardPage(
             ),
             DTOutput("lsc_table")
           ),
-      #     tabPanel(
-      #       "Plot",
-      #       h4(),
-      #       
-      #       
-      #       plotSelectors1(prefix = "plot_lsc",
-      #                     choices = c("cdm_name", "cohort_name", "window"),
-      #                     default = list(facet_by = c("cdm_name", "cohort_name", "window"))),
-      #       
-      #       
-      #       
-      #       plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
-      #     )
-      #   )
-      # ),      
+          # tabPanel(
+          #   "Plot",
+          #   h4(),
+          # 
+          # 
+          #   plotSelectors1(prefix = "plot_lsc",
+          #                 choices = c("cdm_name", "cohort_name", "window"),
+          #                 default = list(facet_by = c("cdm_name", "cohort_name", "window"))),
+          # 
+          # 
+          # 
+          #   plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
+          # )
+        )
+      ),
       
       # log ----
       tabItem(
