@@ -414,6 +414,7 @@ ui <- dashboardPage(
         )
       ),
       # large_scale_characterisation ----
+      
       tabItem(
         tabName = "large_scale_characterisation",
         selectors(data$lsc_table, "lsc", c("cdm_name", "cohort_name", "window")),
@@ -425,12 +426,20 @@ ui <- dashboardPage(
             pickerInput(
               inputId = "select_lsc_columns",
               label = "Columns to display",
-              choices = c("Cdm name", "Cohort name", "Concept name",
-                          "Window", "Matched integer", "Matched percentage", "Sample integer", 
-                          "Sample percentage", "Difference integer", "Difference percentage"),
-              selected = c("Cdm name", "Cohort name", "Concept name",
-                           "Window", "Matched integer", "Matched percentage", "Sample integer", 
-                           "Sample percentage", "Difference integer", "Difference percentage"),
+              # choices = c("Cdm name", "Cohort name", "Concept name",
+              #             "Window", "Matched integer", "Matched percentage", "Sample integer",
+              #             "Sample percentage", "Difference integer", "Difference percentage"),
+              # selected = c("Cdm name", "Cohort name", "Concept name",
+              #              "Window", "Matched integer", "Matched percentage", "Sample integer",
+              #              "Sample percentage", "Difference integer", "Difference percentage"),
+              
+              
+              choices = c("cdm_name", "cohort_name", "concept_name",
+                          "window", "matched_integer", "matched_percentage", "sample_integer",
+                          "sample_percentage", "difference_integer", "difference_percentage"),
+              selected = c("cdm_name", "cohort_name", "concept_name",
+                           "window", "matched_integer", "matched_percentage", "sample_integer",
+                           "sample_percentage", "difference_integer", "difference_percentage"),
               options = list(
                 `actions-box` = TRUE,
                 size = 10,
@@ -440,25 +449,22 @@ ui <- dashboardPage(
             ),
             DTOutput("lsc_table")
           ),
-          tabPanel(
-            "Plot",
-            h4(),
-            pickerInput(
-              inputId = "plsc_facet",
-              label = "facet_by",
-              choices = c("cohort_name", "cdm_name", "window"),
-              selected = c("cohort_name", "cdm_name", "window"),
-              options = list(
-                `actions-box` = TRUE,
-                size = 10,
-                `selected-text-format` = "count > 3"
-              ),
-              multiple = TRUE) ,
-
-            plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
-          )
-        )
-      ),
+      #     tabPanel(
+      #       "Plot",
+      #       h4(),
+      #       
+      #       
+      #       plotSelectors1(prefix = "plot_lsc",
+      #                     choices = c("cdm_name", "cohort_name", "window"),
+      #                     default = list(facet_by = c("cdm_name", "cohort_name", "window"))),
+      #       
+      #       
+      #       
+      #       plotlyOutput('lsc_plot', height = "800px") %>% withSpinner()
+      #     )
+      #   )
+      # ),      
+      
       # log ----
       tabItem(
         tabName = "log",

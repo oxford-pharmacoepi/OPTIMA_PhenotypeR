@@ -369,8 +369,8 @@ data$lsc_table <- data$lsc_matched %>%
         names_from = estimate_type, 
                   values_from = estimate)) %>%
   mutate(
-    difference_integer = (sample_integer - matched_integer)/matched_integer,
-    difference_percentage = (sample_percentage - matched_percentage)/matched_percentage
+    difference_integer = round((sample_integer - matched_integer)/matched_integer, 2),
+    difference_percentage = round((sample_percentage - matched_percentage)/matched_percentage, 2)
   ) %>%
   select(
     cdm_name, cohort_name = group_level, concept_name = variable_name,

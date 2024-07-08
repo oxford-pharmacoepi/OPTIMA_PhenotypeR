@@ -37,6 +37,18 @@ plotSelectors <- function(prefix, choices, multiple = TRUE, default = list(), ty
   ))
 }
 
+plotSelectors1 <- function(prefix, choices, multiple = TRUE, default = list(), type = c("facet_by")) {
+  purrr::map(type, ~ pickerInput(
+    inputId = paste0(prefix, "_", .),
+    label = stringr::str_to_sentence(gsub("_", " ", .)),
+    choices = choices,
+    selected = default[[.]],
+    options = list(`actions-box` = multiple, size = 10, `selected-text-format` = "count > 3"),
+    multiple = multiple,
+    inline = TRUE
+  ))
+}
+
 filterData <- function(data, prefix, input) {
   cols <- colnames(data)
   cols <- cols[paste0(prefix, "_", cols) %in% names(input)]
