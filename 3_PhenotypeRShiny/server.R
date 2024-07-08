@@ -194,7 +194,8 @@ server <- function(input, output, session) {
         intersect_counts = paste0(niceNum(intersect_counts), " (", niceNum(intersect_percentage), "%)")
       ) %>% 
       select(cdm_name, cohort_name_x, cohort_name_y, subject_counts_only_in_x, subject_counts_only_in_y, intersect_counts) %>% 
-      niceColumnNames()
+      niceColumnNames() %>% 
+     distinct(`Intersect counts`, .keep_all = TRUE)
   })
   output$overlap_tidy <- renderDataTable({
     datatable(
