@@ -108,8 +108,9 @@ ui <- dashboardPage(
       tabItem(
         tabName = "background",
         h3("PhenotypeR"),
-        h5("PhenotypeR is a package to assess feasibility of clinical phenotypes to be used for studies. The package is under developement however it relies on other publically available packages as a tool to help phenotyping."),
+        h5("PhenotypeR is a package to assess feasibility of clinical phenotypes (cohorts and/or codelists) to be used for studies. The package is under developement however it relies on other publically available packages as a tool to help phenotyping. The developement version of the PhenotypeR package can be found " , a("here", href = "https://oxford-pharmacoepi.github.io/phenotypeR/")),
       ),
+      
       #cdm snapshot ------
       tabItem(
         tabName = "cdm_snapshot",

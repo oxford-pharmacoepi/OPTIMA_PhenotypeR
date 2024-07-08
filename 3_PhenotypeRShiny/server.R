@@ -4,6 +4,7 @@ server <- function(input, output, session) {
     
     table <- cohort_set %>% 
       filter(cohort_name %in% input$cohort_set_input) %>% 
+      distinct(cohort, .keep_all = TRUE) %>% 
       pull(markdown) %>% 
       formatMarkdown()
   })
@@ -78,6 +79,9 @@ server <- function(input, output, session) {
   getCodeCount <- reactive({
     filterData(data$code_counts, "code_counts", input) %>% 
       niceColumnNames() %>% 
+      mutate(`Record count` = as.integer(`Record count`),
+             `Person count` = as.integer(`Person count`)) %>% 
+      arrange(desc(`Person count`)) %>% 
       select(input$select_code_count_columns)
   })
   output$tidy_code_counts <- renderDataTable({
