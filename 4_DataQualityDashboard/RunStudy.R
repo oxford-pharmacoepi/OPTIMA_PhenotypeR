@@ -14,13 +14,20 @@ tablesToExclude <- c()
 if (!file.exists(outputFolder)){
   dir.create(outputFolder, recursive = TRUE)}
 
+# instanstiate cohort
+source(here("instantiate_cohorts.R"))
+
+#get the cohort table name
+cohort_table_name <- cohortTableNames$cohortTable
+
 # DQD for ATLAS cohort
 DataQualityDashboard::executeDqChecks(connectionDetails = connectionDetails, 
                                       cdmDatabaseSchema = cdm_database_schema, 
                                       resultsDatabaseSchema = results_database_schema,
                                       cdmSourceName = cdmSourceName,
-                                      cohortDefinitionId = ATLASID,
+                                      cohortDefinitionId = 1,
                                       cohortDatabaseSchema = cohort_database_schema ,
+                                      cohortTableName = cohort_table_name,
                                       numThreads = numThreads,
                                       sqlOnly = FALSE, 
                                       outputFolder = "output", 
@@ -28,3 +35,7 @@ DataQualityDashboard::executeDqChecks(connectionDetails = connectionDetails,
                                       writeToTable = FALSE,
                                       checkLevels = checkLevels,
                                       checkNames = checkNames)
+
+
+# pull out the result file 
+dqd_files <- list.files(path = here("output"), pattern = "\\.json$", full.names = TRUE)
