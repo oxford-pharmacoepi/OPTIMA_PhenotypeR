@@ -36,7 +36,6 @@ library(DataQualityDashboard)
 
 # database connection details
 server     <- "..."
-server_dbi <- "..."
 user       <- "..."
 password   <- "..."
 port       <- "..." 
@@ -60,34 +59,32 @@ connectionDetails <- createConnectionDetails(dbms = "...",
 # your sql dialect used with the OHDSI SqlRender package
 # eg postgresql, redshift etc
 # see https://ohdsi.github.io/SqlRender/articles/UsingSqlRender.html for more details
-targetDialect <-"..." 
+targetDialect <- "..." 
 
 # The name of the schema that contains the OMOP CDM with patient-level data
-cdm_database_schema<-"..."
+cdm_database_schema <-"..."
 
 # The name of the schema that contains the vocabularies 
 # (often this will be the same as cdm_database_schema)
-vocabulary_database_schema<-"..."
+vocabulary_database_schema <-"..."
 
 # The name of the schema where results tables will be created 
-results_database_schema<-"..."
+results_database_schema <-"..."
 
 # The name of the schema where cohort table is 
-cohort_database_schema<-"..."
+cohort_database_schema <-"..."
 
 # CDM source
-cdmSourceName <- "..." # a human readable name for your CDM source
+cdmSourceName <- "..." # a human readable name for your CDM source e.g. SIDIAP, CPRD_GOLD
+
+# stem name - short name in lower case
+cohortTableStem <- "..."
 
 # determine how many threads (concurrent SQL sessions) to use ----------------------------------------
 numThreads <- 1 # we tried 3 but crashed so set to 1
-
-# Set ATLAS ID for cohort in ATLAS - need to instantiate cohort from 1_instantiate folder (LungCancer.json) in ATLAS and get ID
-ATLASID <- "..."
 
 # Run the study ------
 source(here("RunStudy.R"))
 
 # to launch DQD shiny app -----
-# jsonFilePath <- here("output", "...") # filename in ...
-# 
-# DataQualityDashboard::viewDqDashboard(jsonFilePath)
+DataQualityDashboard::viewDqDashboard(dqd_files)
