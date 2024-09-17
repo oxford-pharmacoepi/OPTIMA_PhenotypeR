@@ -1,4 +1,4 @@
 data/*.csv
-data/*.Rdata
+data/*.RData
 data/results_CPRD GOLD 100k/*.csv
 .Rproj.user
