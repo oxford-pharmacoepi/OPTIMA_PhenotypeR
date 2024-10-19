@@ -40,3 +40,4 @@ vignettes/*.pdf
 /1_CohortDefinitions/local_vocabs
 1_CohortDefinitions/renv/activate.R
 3_PhenotypeRShiny/rsconnect/shinyapps.io/dpa-pde-oxford/OPTIMA_phenotypeR.dcf
+/3_PhenotypeRShiny/data

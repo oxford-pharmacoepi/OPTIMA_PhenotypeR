@@ -26,7 +26,8 @@ if(length(results) > 0){
 #unzip data
 for (i in (1:length(results))) {
   utils::unzip(zipfile = results[[i]],
-               exdir = here("data"))
+               exdir = here("data"),
+               overwrite = FALSE)
 }
 
 #grab the results from the folders
@@ -54,7 +55,7 @@ data <- vector("list", length(result_names)) |> setNames(result_names)
 # 
 # data$cohort_definitions <- bind_rows(cohort_definitions_estimates)
 
-cohort_set <- CDMConnector::read_cohort_set(here::here(
+cohort_set <- CDMConnector::read_cohort_set(here::here("www",
   "Cohorts" ))
 
 cohort_set$markdown <- ""
