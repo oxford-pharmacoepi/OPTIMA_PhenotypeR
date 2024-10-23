@@ -152,7 +152,9 @@ prevalence_estimates <- list()
 for(i in seq_along(prevalence_files)){
   prevalence_estimates[[i]]<-readr::read_csv(prevalence_files[[i]], 
                                                     show_col_types = FALSE)  
-}
+} %>% 
+  mutate(prevalence_start_date = as.Date(prevalence_start_date)
+  ) 
 
 data$prevalence <- bind_rows(prevalence_estimates)
 
