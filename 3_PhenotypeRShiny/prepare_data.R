@@ -246,6 +246,14 @@ for(i in seq_along(cdm_snapshot_files)){
 data$cdm_snapshot <- bind_rows(cdm_snapshot_estimates)
 
 
+data <- lapply(data, function(df) {
+  if ("cdm_name" %in% colnames(df)) {
+    df <- df %>%
+      mutate(cdm_name = if_else(cdm_name == "postgres", "NCR", cdm_name)) %>% 
+      mutate(cdm_name = if_else(cdm_name == "OPTIMA", "QMUL", cdm_name)) 
+  }
+  return(df)
+})
 
 
 } else {
