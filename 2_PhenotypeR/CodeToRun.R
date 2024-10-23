@@ -21,7 +21,8 @@ library(testthat)
 library(SqlRender)
 
 # database metadata and connection details -----
-# The name/ acronym for the database
+# The name/ acronym for the database.
+# Please do not put OPTIMA, cdm or postgres e.g. CPRD_GOLD, IKNL, SIDIAP etc
 db_name <- "..."
 
 # Specify databaseConnector connection details -----
