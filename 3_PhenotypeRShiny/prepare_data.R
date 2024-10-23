@@ -236,7 +236,9 @@ cdm_snapshot_estimates <- list()
 for(i in seq_along(cdm_snapshot_files)){
   cdm_snapshot_estimates[[i]]<-readr::read_csv(cdm_snapshot_files[[i]], 
                                       show_col_types = FALSE)  %>% 
-    mutate(cdm_version = as.character(cdm_version)) 
+    mutate(cdm_version = as.character(cdm_version),
+           vocabulary_version = as.character(vocabulary_version)
+           ) 
 }
 
 data$cdm_snapshot <- bind_rows(cdm_snapshot_estimates)
@@ -381,6 +383,7 @@ data$lsc_table <- data$lsc_matched %>%
 
 cohort_set <- data$cohort_definitions
 
+# update
 # Get concept ids from a provided path to cohort json files
 # in dataframe
 # Get a list of JSON files in the directory
@@ -408,6 +411,7 @@ if(length(json_files > 0)){
     concept_lists[[i]] <- bind_rows(concept_sets) %>% 
       mutate(name = concept_lists_temp[[i]]$ConceptSets[[1]]$name)
     
+    concept_sets <- list()
     
   }
   
@@ -433,6 +437,7 @@ if(length(json_files > 0)){
     concept_lists1[[i]] <- bind_rows(concept_sets1) %>% 
       mutate(name = concept_lists_temp[[i]]$ConceptSets[[2]]$name)
     
+    concept_sets1 <- list()
     
   }
   
@@ -451,6 +456,7 @@ concept_sets_final <- bind_rows(concept_sets_final, concept_sets_final1)
 
 }
 
+# update
 
 rm(concept_lists_temp, concept_lists, concept_sets,
    concept_lists1, concept_sets1, concept_sets_final1
