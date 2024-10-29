@@ -8,18 +8,7 @@ server <- function(input, output, session) {
       pull(markdown) %>% 
       formatMarkdown()
   })
-  # JSON ----
-  # output$verb <- renderPrint({
-  #   
-  #   json_content <- cohort_set %>% 
-  #     filter(cohort_name %in% input$cohort_set_input) %>%
-  #     pull(json) %>%
-  #     unlist()
-  #   
-  #   cat(json_content)
-  #   
-  # })
-  # 
+
   output$downloadBreastCancerjson <- downloadHandler(
     filename = function() {
       "breastcancer.json"
@@ -77,20 +66,6 @@ server <- function(input, output, session) {
   )
 
   
-  # output$clip <- renderUI({
-  #   rclipButton(
-  #     inputId = "clipbtn",
-  #     label = "Copy to clipboard",
-  #     clipText = isolate(cohort_set %>%
-  #                          filter(cohort_name %in% input$cohort_set_input) %>%
-  #                          pull(json) %>%
-  #                          unlist()),
-  #     icon = icon("clipboard"),
-  #     placement = "top",
-  #     options = list(delay = list(show = 800, hide = 100), trigger = "hover")
-  #   )
-  # })
-  
   # Cohort counts ----
   output$tidy_counts <- renderDataTable({
     datatable(
@@ -121,7 +96,6 @@ server <- function(input, output, session) {
   })
   
   #concepts_sets ----
-  #update
   get_concepts_sets <- reactive({
     
     validate(
@@ -141,8 +115,7 @@ server <- function(input, output, session) {
                   options = list(scrollX = TRUE))
   })
   
-  # update #
-  
+
   output$dt_concept_sets_word <- downloadHandler(
     filename = function() {
       "concept_sets.docx"
@@ -185,6 +158,7 @@ server <- function(input, output, session) {
       options = list(scrollX = TRUE, scrollCollapse = TRUE)
     )
   })
+  
   # Index date ----
   getIndexDate <- reactive({
     filterData(data$index_events, "index", input) %>% 
@@ -202,6 +176,7 @@ server <- function(input, output, session) {
       options = list(scrollX = TRUE, scrollCollapse = TRUE)
     )
   })
+  
   # Overlap ----
 
   getOverlapTable <- reactive({
@@ -209,6 +184,7 @@ server <- function(input, output, session) {
     validate(
       need(data$cohort_overlap, "No cohort overlap carried out", "No cohort overlap carried out")
     )
+    
     
     filterData(data$cohort_overlap, "overlap", input) %>% 
       mutate(
@@ -223,16 +199,25 @@ server <- function(input, output, session) {
       select(cdm_name, cohort_name_x, cohort_name_y, subject_counts_only_in_x, subject_counts_only_in_y, intersect_counts) %>% 
       niceColumnNames() %>% 
      distinct(`Intersect counts`, .keep_all = TRUE)
+    
   })
+
+
   output$overlap_tidy <- renderDataTable({
+    
     datatable(
       getOverlapTable(),
       rownames = FALSE,
       extensions = "Buttons",
       options = list(scrollX = TRUE, scrollCollapse = TRUE)
     )
+  
   })
+  
+
+  
   getOverlapPlot <- reactive({
+      
     filterData(data$cohort_overlap, "overlap", input) %>% 
       mutate(
         total_counts = subject_counts_x + subject_counts_y - intersect_counts,
@@ -244,6 +229,7 @@ server <- function(input, output, session) {
       ) %>% 
     distinct(intersect_percentage, .keep_all = TRUE)
   })
+  
   output$overlap_plot <- renderPlotly({
     table <- getOverlapPlot() 
     table$y_pos <- seq(0, nrow(table)-1, 1) 
@@ -283,7 +269,10 @@ server <- function(input, output, session) {
       ) +
       guides(fill = guide_legend(order = 3, override.aes = list(fill = c('#B6CDDE', '#E7BEC2', "#BBA0AE")))) +
       ylab("") + xlab("")
+  
   })
+  
+  
   # Age ----
   getAgeDistribution <- reactive({
     filterData(data$age_distribution, "age", input) %>% 

@@ -42,19 +42,6 @@ result_files <- list.files(
 data <- vector("list", length(result_names)) |> setNames(result_names)
 
 # Read files and join equal outputs
-# read in the files we need and read them into the data
-# cohort definitions
-# cohort_definitions_files<-result_files[stringr::str_detect(result_files, ".csv")]
-# cohort_definitions_files<-result_files[stringr::str_detect(result_files, "cohort_definitions")]
-# 
-# cohort_definitions_estimates <- list()
-# for(i in seq_along(cohort_definitions_files)){
-#   cohort_definitions_estimates[[i]]<-readr::read_csv(cohort_definitions_files[[i]], 
-#                                              show_col_types = FALSE)  
-# }
-# 
-# data$cohort_definitions <- bind_rows(cohort_definitions_estimates)
-
 cohort_set <- CDMConnector::read_cohort_set(here::here("www",
   "Cohorts" ))
 
@@ -96,18 +83,6 @@ for(i in seq_along(code_count_files)){
 
 data$code_counts <- bind_rows(code_count_estimates)
 
-# cohort overlap
-code_overlap_files<-result_files[stringr::str_detect(result_files, ".csv")]
-code_overlap_files<-result_files[stringr::str_detect(result_files, "code_overlap")]
-
-code_overlap_estimates <- list()
-for(i in seq_along(code_overlap_files)){
-  code_overlap_estimates[[i]]<-readr::read_csv(code_overlap_files[[i]], 
-                                             show_col_types = FALSE)  
-}
-
-data$code_overlap <- bind_rows(code_overlap_estimates)
-
 # age distribution
 age_distribution_files<-result_files[stringr::str_detect(result_files, ".csv")]
 age_distribution_files<-result_files[stringr::str_detect(result_files, "age_distribution")]
@@ -132,17 +107,44 @@ for(i in seq_along(time_distribution_files)){
 
 data$time_distribution <- bind_rows(time_distribution_estimates)
 
-# cohort definitions
+# code overlap
+code_overlap_files<-result_files[stringr::str_detect(result_files, ".csv")]
+code_overlap_files<-result_files[stringr::str_detect(result_files, "code_overlap")]
+
+code_overlap_estimates <- list()
+for(i in seq_along(code_overlap_files)){
+  code_overlap_estimates[[i]]<-readr::read_csv(code_overlap_files[[i]],
+                                               show_col_types = FALSE)
+}
+
+data$code_overlap <- bind_rows(code_overlap_estimates)
+
+
+# cohort overlap
 cohort_overlap_files<-result_files[stringr::str_detect(result_files, ".csv")]
 cohort_overlap_files<-result_files[stringr::str_detect(result_files, "cohort_overlap")]
 
 cohort_overlap_estimates <- list()
 for(i in seq_along(cohort_overlap_files)){
-  cohort_overlap_estimates[[i]]<-readr::read_csv(cohort_overlap_files[[i]], 
-                                                     show_col_types = FALSE)  
+  cohort_overlap_estimates[[i]]<-readr::read_csv(cohort_overlap_files[[i]],
+                                                     show_col_types = FALSE)
 }
 
 data$cohort_overlap <- bind_rows(cohort_overlap_estimates)
+
+ if (length(data$cohort_overlap) == 0) {
+
+   data$cohort_overlap <- tibble(
+
+     cohort_definition_id_x = double(),
+     cohort_definition_id_y = double(),
+     cdm_name = character(),
+     intersect_count = double()
+
+   )
+   
+ }
+
 
 # prevalence
 prevalence_files<-result_files[stringr::str_detect(result_files, ".csv")]
