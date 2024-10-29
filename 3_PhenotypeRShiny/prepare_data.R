@@ -283,6 +283,20 @@ rm(x)
 
 }
 
+
+if (length(data$cohort_overlap) == 0) {
+  
+  data$cohort_overlap <- tibble(
+    
+    cohort_definition_id_x = double(),
+    cohort_definition_id_y = double(),
+    cdm_name = character(),
+    intersect_count = double()
+    
+  )
+  
+}
+
 # Tranform data for shiny ----
 # Orphan code counts
 data$orphan_counts <- data$code_counts %>% 
