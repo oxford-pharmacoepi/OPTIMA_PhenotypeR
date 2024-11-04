@@ -467,29 +467,33 @@ server <- function(input, output, session) {
     p
   })
   # LSC  ----
-  output$lsc_table <- renderDataTable({
 
-    filterData(data$lsc_table, "lsc", input) %>% 
-      #niceColumnNames() %>% 
-      #arrange(`Cohort name`, `Cdm name`, desc(`Difference percentage`)) %>% 
-      arrange(cohort_name, cdm_name, desc(difference_percentage)) %>% 
-      select(input$select_lsc_columns)
+  output$lsc_table <- renderDataTable({
+    
+    DT::datatable(
+      
+      filterData(data$lsc_table, "lsc", input) %>% 
+        #niceColumnNames() %>%
+        arrange(cohort_name, cdm_name, desc(difference_percentage)) %>% 
+        #arrange(`Cohort name`, `Cdm name`, desc(`Difference percentage`)) %>%
+        select(input$select_lsc_columns) ,
+      
+      options = list(scrollX = TRUE),
+      rownames = FALSE  
+      
+    )
+    
   })
+  
+  
     
     output$lsc_plot <- renderPlotly({
       
       table <-     filterData(data$lsc_table, "lsc", input) %>% 
-        #niceColumnNames() %>%
-        #arrange(`Cohort name`, `Cdm name`, desc(`Difference percentage`)) %>%
-        #select(input$select_lsc_columns) %>% 
-       # mutate(Label = paste0(`Concept name`, "; ", Window)) %>% 
       arrange(cohort_name, cdm_name, desc(difference_percentage)) %>%
         mutate(label = paste0(concept_name, "; ", window)) %>%
         drop_na()
 
-     
-     # table <- data$lsc_table %>% 
-     #   mutate(label = paste0(concept_name, "; ", window))
     
     if(!is.null(input$plot_lsc_facet_by)){
       p <- table %>%

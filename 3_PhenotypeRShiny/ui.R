@@ -426,14 +426,7 @@ ui <- dashboardPage(
             pickerInput(
               inputId = "select_lsc_columns",
               label = "Columns to display",
-              # choices = c("Cdm name", "Cohort name", "Concept name",
-              #             "Window", "Matched integer", "Matched percentage", "Sample integer",
-              #             "Sample percentage", "Difference integer", "Difference percentage"),
-              # selected = c("Cdm name", "Cohort name", "Concept name",
-              #              "Window", "Matched integer", "Matched percentage", "Sample integer",
-              #              "Sample percentage", "Difference integer", "Difference percentage"),
-              
-              
+
               choices = c("cdm_name", "cohort_name", "concept_name",
                           "window", "matched_integer", "matched_percentage", "sample_integer",
                           "sample_percentage", "difference_integer", "difference_percentage"),
@@ -447,7 +440,9 @@ ui <- dashboardPage(
               ),
               multiple = TRUE
             ),
-            DTOutput("lsc_table")
+           # DTOutput("lsc_table")
+            
+            DT::dataTableOutput('lsc_table'),
           ),
           # tabPanel(
           #   "Plot",
