@@ -158,7 +158,8 @@ for(i in seq_along(prevalence_files)){
   mutate(prevalence_start_date = as.Date(prevalence_start_date)
   ) 
 
-data$prevalence <- bind_rows(prevalence_estimates)
+data$prevalence <- bind_rows(prevalence_estimates) %>% 
+  filter(cdm_name != "postgres")
 
 # incidence
 incidence_files<-result_files[stringr::str_detect(result_files, ".csv")]
@@ -170,7 +171,8 @@ for(i in seq_along(incidence_files)){
                                              show_col_types = FALSE)
 }
 
-data$incidence <- bind_rows(incidence_estimates)
+data$incidence <- bind_rows(incidence_estimates) %>% 
+  filter(cdm_name != "postgres")
 
 # index events
 index_events_files<-result_files[stringr::str_detect(result_files, ".csv")]
@@ -194,7 +196,8 @@ for(i in seq_along(lsc_sample_files)){
                                                show_col_types = FALSE)  
 }
 
-data$lsc_sample <- bind_rows(lsc_sample_estimates)
+data$lsc_sample <- bind_rows(lsc_sample_estimates) %>% 
+  filter(cdm_name != "postgres")
 
 # lsc matched
 lsc_matched_files<-result_files[stringr::str_detect(result_files, ".csv")]
@@ -206,7 +209,8 @@ for(i in seq_along(lsc_matched_files)){
                                              show_col_types = FALSE)  
 }
 
-data$lsc_matched <- bind_rows(lsc_matched_estimates)
+data$lsc_matched <- bind_rows(lsc_matched_estimates) %>% 
+  filter(cdm_name != "postgres")
 
 # lsc difference
 lsc_difference_files<-result_files[stringr::str_detect(result_files, ".csv")]
@@ -218,7 +222,8 @@ for(i in seq_along(lsc_difference_files)){
                                               show_col_types = FALSE)  
 }
 
-data$lsc_difference <- bind_rows(lsc_difference_estimates)
+data$lsc_difference <- bind_rows(lsc_difference_estimates) %>% 
+  filter(cdm_name != "postgres")
 
 # log
 log_files<-result_files[stringr::str_detect(result_files, ".csv")]
@@ -307,7 +312,9 @@ data$orphan_counts <- data$code_counts %>%
                                         unlist(gregexpr(';', additional_level))-2)) %>% 
   pivot_wider(names_from = variable_name, values_from = estimate_value) %>% 
   select("cdm_name", "cohort", "relationship_id",
-         "standard_concept_id", "standard_concept_name", "Record count", "Person count")
+         "standard_concept_id", "standard_concept_name", "Record count", "Person count") %>% 
+  mutate(across(everything(), as.character))
+
 # Code counts
 data$code_counts <- data$code_counts %>% 
   filter(strata_name == "original_codes") %>% 

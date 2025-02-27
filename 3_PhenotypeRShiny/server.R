@@ -145,9 +145,9 @@ server <- function(input, output, session) {
   getOrphanCount <- reactive({
     filterData(data$orphan_counts, "orphan", input) %>% 
       niceColumnNames() %>% 
-      mutate(`Record count` = as.integer(`Record count`),
-             `Person count` = as.integer(`Person count`)) %>% 
-      arrange(desc(`Person count`)) %>% 
+      # mutate(`Record count` = as.integer(`Record count`),
+      #        `Person count` = as.integer(`Person count`)) %>% 
+      arrange(desc(as.integer(`Person count`))) %>% 
       select(input$select_orphan_count_columns)
   })
   output$tidy_orphan_counts <- renderDataTable({
